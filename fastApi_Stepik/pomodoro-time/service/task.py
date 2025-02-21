@@ -3,11 +3,11 @@ from dataclasses import dataclass
 from repository import TaskRepository, TaskCache
 from schema.taskschema import TaskSchema
 
+
 @dataclass
 class TaskService:
     task_repository: TaskRepository
     task_cache: TaskCache
-
 
     def get_tasks(self):
         if cache_task := self.task_cache.get_tasks():
