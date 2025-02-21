@@ -16,10 +16,7 @@ def get_tasks_cache_repository() -> TaskCache:
 
 
 def get_task_service(
-        task_repository: TaskRepository=Depends(get_task_repository),
-        task_cache: TaskCache=Depends(get_tasks_cache_repository)
-)->TaskService:
-    return TaskService(
-        task_repository =task_repository,
-        task_cache=task_cache
-    )
+    task_repository: TaskRepository = Depends(get_task_repository),
+    task_cache: TaskCache = Depends(get_tasks_cache_repository),
+) -> TaskService:
+    return TaskService(task_repository=task_repository, task_cache=task_cache)

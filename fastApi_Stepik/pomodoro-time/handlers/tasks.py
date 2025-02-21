@@ -5,16 +5,14 @@ from schema.taskschema import TaskSchema
 from database import get_db_session
 from typing import Annotated
 from repository import TaskRepository, TaskCache
-from dependence import get_task_repository, get_tasks_cache_repository,get_task_service
+from dependence import get_task_repository, get_tasks_cache_repository, get_task_service
 from service import TaskService
 
 router = APIRouter(prefix="/task", tags=["task"])
 
 
 @router.get("/all", response_model=list[TaskSchema])
-async def get_taks(
-    task_service:Annotated[TaskService,Depends(get_task_service)]
-):
+async def get_taks(task_service: Annotated[TaskService, Depends(get_task_service)]):
     return task_service.get_tasks()
 
 
