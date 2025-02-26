@@ -19,7 +19,9 @@ class TaskRepository:
 
     def get_task(self, task_id: int) -> Optional[Tasks]:
         with self.db_session() as session:
-            task: Tasks = session.execute(select(Tasks).where(Tasks.id == task_id)).scalar_one_or_none()
+            task: Tasks = session.execute(
+                select(Tasks).where(Tasks.id == task_id)
+            ).scalar_one_or_none()
         return task
 
     def get_user_task(self, task_id: int, user_id: int) -> Optional[Tasks]:
@@ -34,7 +36,7 @@ class TaskRepository:
             name=task.name,
             pomodoro_count=task.pomodoro_count,
             category_id=task.category_id,
-            user_id=user_id
+            user_id=user_id,
         )
         with self.db_session() as session:
             session.add(task_model)
@@ -48,13 +50,22 @@ class TaskRepository:
             session.commit()
 
     def get_task_by_category_name(self, category_name: str) -> list[Tasks]:
-        query = select(Tasks).join(Categories, Tasks.category_id == Categories.id).where(Categories.name == category_name)
+        query = (
+            select(Tasks)
+            .join(Categories, Tasks.category_id == Categories.id)
+            .where(Categories.name == category_name)
+        )
         with self.db_session() as session:
             task: list[Tasks] = session.execute(query).scalars().all()
             return task
 
     def update_task_name(self, task_id: int, name: str) -> Tasks:
-        query = update(Tasks).where(Tasks.id == task_id).values(name=name).returning(Tasks.id)
+        query = (
+            update(Tasks)
+            .where(Tasks.id == task_id)
+            .values(name=name)
+            .returning(Tasks.id)
+        )
         with self.db_session() as session:
             task_id: int = session.execute(query).scalar_one_or_none()
             session.commit()
