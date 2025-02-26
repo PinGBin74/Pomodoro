@@ -1,12 +1,5 @@
-from pip._vendor.rich.table import Column
-from sqlalchemy.orm import (
-    Mapped,
-    mapped_column,
-    declarative_base,
-    DeclarativeBase,
-    declared_attr,
-)
 from database import Base
+from sqlalchemy.orm import Mapped, mapped_column
 
 
 class UserProfile(Base):
