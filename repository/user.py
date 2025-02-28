@@ -11,12 +11,10 @@ from models import UserProfile
 class UserRepository:
     db_session: Session
 
-    def create_user(
-        self, username: str, password: str, access_token: str
-    ) -> UserProfile:
+    def create_user(self, username: str, password: str) -> UserProfile:
         query = (
             insert(UserProfile)
-            .values(username=username, password=password, access_token=access_token)
+            .values(username=username, password=password)
             .returning(UserProfile.id)
         )
         with self.db_session() as session:
@@ -28,9 +26,12 @@ class UserRepository:
     def get_user(self, user_id) -> Optional[UserProfile]:
         query = select(UserProfile).where(UserProfile.id == user_id)
         with self.db_session() as session:
-            return session.execute(query).scalar_one_or_none()
+            return session.execute(query).scalars().first()
+
 
     def get_user_by_username(self, username: str) -> Optional[UserProfile]:
         query = select(UserProfile).where(UserProfile.username == username)
         with self.db_session() as session:
-            return session.execute(query).scalar_one_or_none()
+            return session.execute(query).scalars().first()
+
+
