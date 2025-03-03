@@ -1,6 +1,6 @@
-from schema.taskschema import TaskSchema
 from redis import Redis
 import json
+from schema.task import TaskSchema
 
 
 class TaskCache:
@@ -15,4 +15,4 @@ class TaskCache:
     def set_tasks(self, tasks: list[TaskSchema]):
         tasks_json = [task.json() for task in tasks]
         with self.redis as redis:
-            self.redis.lpush("tasks", *tasks_json)
+            redis.lpush("tasks", *tasks_json)

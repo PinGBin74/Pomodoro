@@ -2,9 +2,9 @@ from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
-
-from alembic import context
 from models import *
+from alembic import context
+
 from database import Base
 
 # this is the Alembic Config object, which provides
@@ -46,6 +46,7 @@ def run_migrations_offline() -> None:
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
+        version_table_schema=target_metadata.schema,
     )
 
     with context.begin_transaction():

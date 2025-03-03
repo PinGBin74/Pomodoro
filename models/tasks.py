@@ -1,26 +1,24 @@
-from sqlalchemy.orm import (
-    Mapped,
-    mapped_column,
-    declarative_base,
-    DeclarativeBase,
-    declared_attr,
-)
 from typing import Optional
+
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column
+
 from database import Base
 
 
 class Tasks(Base):
-    __tablename__ = "tasks"
-
+    __tablename__ = "Tasks"
+    __table_args__ = {"extend_existing": True}
     id: Mapped[int] = mapped_column(primary_key=True, nullable=False)
     name: Mapped[str]
     pomodoro_count: Mapped[int]
     category_id: Mapped[int] = mapped_column(nullable=False)
+    user_id: Mapped[int] = mapped_column(ForeignKey("UserProfile.id"), nullable=False)
 
 
 class Categories(Base):
-    __tablename__ = "categories"
-
+    __tablename__ = "Categories"
+    __table_args__ = {"extend_existing": True}
     id: Mapped[int] = mapped_column(primary_key=True, nullable=False)
     type: Mapped[Optional[str]]
     name: Mapped[str]
