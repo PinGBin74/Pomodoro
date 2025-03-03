@@ -36,20 +36,18 @@ class TaskRepository:
             name=task.name,
             pomodoro_count=task.pomodoro_count,
             category_id=task.category_id,
-            user_id=user_id
+            user_id=user_id,
         )
         with self.db_session() as session:
             session.add(task_model)
             session.commit()
             return task_model.id
 
-
     def delete_task(self, task_id: int, user_id: int) -> None:
         query = delete(Tasks).where(Tasks.id == task_id, Tasks.user_id == user_id)
         with self.db_session() as session:
             session.execute(query)
             session.commit()
-
 
     def get_task_by_category_name(self, category_name: str) -> list[Tasks]:
         query = (

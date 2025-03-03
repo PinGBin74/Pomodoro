@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from exception import TaskNotFound
 from repository import TaskRepository, TaskCache
 
+
 @dataclass
 class TaskService:
     task_repository: TaskRepository
