@@ -12,3 +12,4 @@ Session = sessionmaker(engine)
 
 def get_db_session() -> Session:
     return Session
+
