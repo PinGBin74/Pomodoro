@@ -1,6 +1,6 @@
 import string
 from dataclasses import dataclass
-from random import random, choice
+from random import choice
 
 from repository import UserRepository
 from schema import UserLoginSchema
@@ -13,6 +13,7 @@ class UserService:
     auth_service: AuthService
 
     async def create_user(self, username: str, password: str) -> UserLoginSchema:
+
         user = await self.user_repository.create_user(
             username=username, password=password
         )
