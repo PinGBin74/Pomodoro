@@ -1,5 +1,4 @@
-import redis
-
+from redis import asyncio as redis
 from database.database import settings
 from settings import Settings
 

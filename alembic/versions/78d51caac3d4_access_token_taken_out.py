@@ -1,7 +1,7 @@
 """access_token_taken_out
 
 Revision ID: 78d51caac3d4
-Revises: 
+Revises:
 Create Date: 2025-02-27 14:01:57.216317
 
 """

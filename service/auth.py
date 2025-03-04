@@ -5,11 +5,16 @@ from datetime import timedelta
 import settings
 from client import GoogleClient
 from client import YandexClient
-from exception import UserNotFoundException, UserNotCorrectPasswordException
+from exception import (
+    UserNotFoundException,
+    UserNotCorrectPasswordException,
+    TokenNotCorrect,
+    TokenExpired,
+)
 from models import UserProfile
 from repository import UserRepository
 from schema import UserLoginSchema, UserCreateSchema
-from jose import jwt
+from jose import jwt, JWTError
 
 from settings import Settings
 
@@ -22,10 +27,10 @@ class AuthService:
     google_client: GoogleClient
     yandex_client: YandexClient
 
-    def google_auth(self, code: str):
-        user_data = self.google_client.get_user_info(code)
+    async def google_auth(self, code: str):
+        user_data = await self.google_client.get_user_info(code)
 
-        if user := self.user_repository.get_user_by_email(email=user_data.email):
+        if user := await self.user_repository.get_user_by_email(email=user_data.email):
             access_token = self.generate_access_token(user_id=user.id)
             return UserLoginSchema(user_id=user.id, access_token=access_token)
         create_user_data = UserCreateSchema(
@@ -33,7 +38,7 @@ class AuthService:
             email=user_data.email,
             name=user_data.name,
         )
-        created_user = self.user_repository.create_user(create_user_data)
+        created_user = await self.user_repository.create_user(create_user_data)
         access_token = self.generate_access_token(user_id=created_user.id)
         return UserLoginSchema(user_id=created_user.id, access_token=access_token)
 
@@ -46,8 +51,8 @@ class AuthService:
     def get_yandex_auth(self, code: str):
         print(code)
 
-    def yandex_auth(self, code: str):
-        user_data = self.yandex_client.get_user_info(code)
+    async def yandex_auth(self, code: str):
+        user_data = await self.yandex_client.get_user_info(code)
 
         if user := self.user_repository.get_user_by_email(
             email=user_data.default_email
@@ -64,8 +69,8 @@ class AuthService:
         access_token = self.generate_access_token(user_id=created_user.id)
         return UserLoginSchema(user_id=created_user.id, access_token=access_token)
 
-    def login(self, username: str, password: str) -> UserLoginSchema:
-        user = self.user_repository.get_user_by_username(username=username)
+    async def login(self, username: str, password: str) -> UserLoginSchema:
+        user = await self.user_repository.get_user_by_username(username=username)
         self._validate_auth_user(user, password)
         access_token = self.generate_access_token(user_id=user.id)
         return UserLoginSchema(user_id=user.id, access_token=access_token)
@@ -87,9 +92,15 @@ class AuthService:
         return token
 
     def get_user_id_from_access_token(self, access_token: str) -> int:
-        payload = jwt.decode(
-            access_token,
-            self.settings.JWT_SECRET_KEY,
-            algorithms=self.settings.JWT_ENCODE_ALGORITHM,
-        )
+        try:
+            payload = jwt.decode(
+                access_token,
+                self.settings.JWT_SECRET_KEY,
+                algorithms=self.settings.JWT_ENCODE_ALGORITHM,
+            )
+        except JWTError:
+            raise TokenNotCorrect
+        if payload["expire"] < dt.utcnow().timestamp():
+            raise TokenExpired
+
         return payload["user_id"]
