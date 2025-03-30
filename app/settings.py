@@ -23,7 +23,6 @@ class Settings(BaseSettings):
     YANDEX_TOKEN_URL: str = "https://oauth.yandex.ru/token"
     YANDEX_REDIRECT_URI: str = ""
     CELERY_REDIS_URL: str = "redis://localhost:6379"
-    # from_email: str = "DogeBOS@yandex.ru"
     from_email:str="no-repplysmt@yandex.ru"
     SMTP_PORT: int = 465
     SMTP_HOST: str = "smtp.yandex.ru"
