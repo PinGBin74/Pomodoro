@@ -47,14 +47,10 @@ async def test_google_auth__login_exist_user(auth_service, get_db_session):
         await session.commit()
         user_data = await auth_service.google_auth(code)
         login_user = (
-            (
-                await session.execute(
-                    select(UserProfile).where(UserProfile.id == user_data.user_id)
-                )
+            await session.execute(
+                select(UserProfile).where(UserProfile.id == user_data.user_id)
             )
-            .scalars()
-            .first()
-        )
+        ).scalar_one_or_none()
 
     assert login_user.email == EXISTS_GOOGLE_USER_EMAIL
     assert user_data.user_id == EXISTS_GOOGLE_USER_ID
@@ -70,14 +66,10 @@ async def test_base_login__success(auth_service, get_db_session):
         await session.commit()
         await session.flush()
         login_user = (
-            (
-                await session.execute(
-                    select(UserProfile).where(UserProfile.username == username)
-                )
+            await session.execute(
+                select(UserProfile).where(UserProfile.username == username)
             )
-            .scalars()
-            .first()
-        )
+        ).scalar_one_or_none()
 
     user_data = await auth_service.login(username=username, password=password)
 

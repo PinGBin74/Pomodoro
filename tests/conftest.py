@@ -12,7 +12,6 @@ pytest_plugins = [
 
 @pytest.fixture(scope="session")
 def event_loop():
-    # Create a new event loop instead of trying to get a running one
     loop = asyncio.new_event_loop()
     yield loop
     loop.close()

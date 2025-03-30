@@ -18,11 +18,16 @@ class Settings(BaseSettings):
     GOOGLE_REDIRECT_URI: str = ""
     GOOGLE_SECRET_KEY: str = ""
     GOOGLE_TOKEN_URL: str = "https://accounts.google.com/o/oauth2/token"
-
     YANDEX_CLIENT_ID: str = ""
     YANDEX_SECRET_KEY: str = ""
     YANDEX_TOKEN_URL: str = "https://oauth.yandex.ru/token"
     YANDEX_REDIRECT_URI: str = ""
+    CELERY_REDIS_URL: str = "redis://localhost:6379"
+    # from_email: str = "DogeBOS@yandex.ru"
+    from_email:str="no-repplysmt@yandex.ru"
+    SMTP_PORT: int = 465
+    SMTP_HOST: str = "smtp.yandex.ru"
+    SMTP_PASSWORD: str = "hltcizdaxcqbluuu"
 
     @property
     def db_url(self):
