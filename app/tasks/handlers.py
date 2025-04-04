@@ -37,7 +37,10 @@ async def create_task(
     return task
 
 
-@router.patch("/{task_id}", response_model=TaskSchema)
+@router.patch(
+    "/{task_id}",
+    response_model=TaskSchema,
+)
 async def patch_task(
     task_id: int,
     name: str,

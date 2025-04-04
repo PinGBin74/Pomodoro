@@ -7,7 +7,7 @@ PORT ?= 8080
 
 run: ## Run the application using uvicorn with provided arguments on defaults
 	poetry run gunicorn app.main:app -c gunicorn.conf.py
-
+	#poetry run gunicorn app.main:app --worker-class uvicorn.workers.UvicornWorker
 	#uvicorn main:app --host $(HOST) --port $(PORT) --reload --env-file $(ENV_FILE)
 	#uvicorn main:app --host 0.0.0.0 --port 8000
 

@@ -10,6 +10,7 @@ faker = FakerFactory.create()
 EXISTS_GOOGLE_USER_ID = 20
 EXISTS_GOOGLE_USER_EMAIL = "fayfer2004@mail.ru"
 
+
 @register(_name="user_profile")
 class UserProfileFactory(factory.Factory):
     class Meta:

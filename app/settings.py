@@ -22,11 +22,9 @@ class Settings(BaseSettings):
     YANDEX_SECRET_KEY: str = ""
     YANDEX_TOKEN_URL: str = "https://oauth.yandex.ru/token"
     YANDEX_REDIRECT_URI: str = ""
-    CELERY_REDIS_URL: str = "redis://localhost:6379"
-    from_email:str="no-repplysmt@yandex.ru"
-    SMTP_PORT: int = 465
-    SMTP_HOST: str = "smtp.yandex.ru"
-    SMTP_PASSWORD: str = "hltcizdaxcqbluuu"
+    BROKER_URL: str = "127.0.0.1:9092"
+    EMAIL_TOPIC: str = "email_topic"
+    EMAIL_CALLBACK_TOPIC: str = "callback_email_topic"
 
     @property
     def db_url(self):
