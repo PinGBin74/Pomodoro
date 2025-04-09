@@ -9,3 +9,4 @@ __pychache__
 resolve
 transferring
 __pycache__
+.pytest_cache
