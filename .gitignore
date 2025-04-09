@@ -4,3 +4,4 @@ __pychache__/
 .local*
 .flake8
 __pychache__
+.vscode
