@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     YANDEX_SECRET_KEY: str = ""
     YANDEX_TOKEN_URL: str = "https://oauth.yandex.ru/token"
     YANDEX_REDIRECT_URI: str = ""
-    BROKER_URL: str = "127.0.0.1:9092"
+    BROKER_URL: str = "localhost:9092"
     EMAIL_TOPIC: str = "email_topic"
     EMAIL_CALLBACK_TOPIC: str = "callback_email_topic"
 

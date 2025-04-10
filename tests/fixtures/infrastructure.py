@@ -13,7 +13,7 @@ def settings():
 
 
 engine = create_async_engine(
-    url="postgresql+asyncpg://postgres:password@0.0.0.0:5432/pomodoro-test",
+    url="postgresql+asyncpg://postgres:password@0.0.0.0:5432/pomodoro",
     future=True,
     echo=True,
     pool_pre_ping=True,

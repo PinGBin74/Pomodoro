@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from aiokafka import AIOKafkaConsumer
+import logging
 
 
 @dataclass
@@ -17,6 +18,10 @@ class BrokerConsumer:
         await self.open_connection()
         try:
             async for message in self.consumer:
-                print(message.value)
+                try:
+                    email_data = message.value
+                    logging.info(f"Received email message: {email_data}")
+                except Exception as e:
+                    logging.error(f"Error processing email message: {e}")
         finally:
             await self.close_connection()

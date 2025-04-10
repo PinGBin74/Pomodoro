@@ -1,18 +1,17 @@
 from contextlib import asynccontextmanager
 
-from fastapi import Depends, FastAPI
+from fastapi import FastAPI
 
-from app.dependecy import get_broker_consumer, get_tasks_repository
 from app.tasks.handlers import router as tasks_router
-from app.tasks.repository.task import TaskRepository
 from app.users.auth.handlers import router as auth_router
 from app.users.user_profile.handlers import router as user_router
+from app.dependecy import get_broker_consumer
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # broker_consumer = await get_broker_consumer()
-    # await broker_consumer.consume_callback_message()
+    broker_consumer = await get_broker_consumer()
+    await broker_consumer.consume_callback_message()
     yield
 
 
