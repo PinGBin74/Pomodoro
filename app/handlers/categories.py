@@ -1,6 +1,5 @@
-from fastapi import FastAPI, APIRouter, status
+from fastapi import APIRouter, status
 
-from pydantic import BaseModel
 from fixtures import categories as fixture_categories
 from app.schema.category import Category
 

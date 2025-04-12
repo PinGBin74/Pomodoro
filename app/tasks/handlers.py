@@ -1,4 +1,3 @@
-import time
 from typing import Annotated
 
 from fastapi import APIRouter, status, Depends, HTTPException, BackgroundTasks

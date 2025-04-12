@@ -1,7 +1,6 @@
 import uuid
 from dataclasses import dataclass
 
-from app.broker.consumer import BrokerConsumer
 from app.broker.producer import BrokerProducer
 
 from app.settings import Settings
