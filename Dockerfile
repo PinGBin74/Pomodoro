@@ -1,36 +1,15 @@
-FROM python:3.12-alpine
+FROM python:3.12-slim
 
-# Установка системных зависимостей
-RUN apk add --no-cache \
-    gcc \
-    musl-dev \
-    python3-dev \
-    postgresql-dev \
-    libffi-dev \
-    make \
-    git \
-    build-base \
-    libpng-dev \
-    freetype-dev \
-    lapack-dev \
-    gfortran \
-    openblas-dev \
-    linux-headers \
-    pkgconfig \
-    cmake
-
-# Установка рабочей директории
 WORKDIR /app
 
-# Копирование всего кода
-COPY . /app/
+COPY pyproject.toml poetry.lock /app/
 
-# Установка зависимостей через pip
-RUN pip install --no-cache-dir -U pip setuptools wheel \
-    && pip install --no-cache-dir -r requirements.txt
+RUN pip install poetry
+RUN poetry lock --no-update
+RUN poetry install
 
-# Добавление /app в PYTHONPATH
-ENV PYTHONPATH=/app
 
-# Запуск приложения
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+COPY . /app
+
+
+CMD ["poetry", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
