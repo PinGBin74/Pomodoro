@@ -46,6 +46,20 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.12"]
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v3
 
@@ -70,6 +84,12 @@ jobs:
           poetry install --no-root
 
       - name: Run unit tests
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_db
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
         run: poetry run pytest tests/unit
 
   # DEPLOY (можно отключить/удалить)
