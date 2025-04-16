@@ -69,8 +69,8 @@ jobs:
           poetry config virtualenvs.create false
           poetry install --no-root
 
-      - name: Start docker-compose services
-        run: docker-compose up -d
+      - name: Start docker compose services
+        run: docker compose up -d
 
       - name: Wait for services to be ready
         run: sleep 15
@@ -104,6 +104,6 @@ jobs:
           ssh -o StrictHostKeyChecking=no root@91.186.198.243 "
             cd Pomodoro &&
             git pull &&
-            docker-compose down &&
-            docker-compose up -d
+            docker compose down &&
+            docker compose up -d
           "
