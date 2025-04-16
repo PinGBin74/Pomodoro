@@ -36,9 +36,3 @@ app.include_router(user_router)
 @app.get("/app/ping")
 async def ping_app():
     return {"text": "app is working"}
-
-
-@app.get("/sentry-debug")
-async def trigger_error():
-    division_by_zero = 1 / 0
-    return {"error": "Division by zero"}
