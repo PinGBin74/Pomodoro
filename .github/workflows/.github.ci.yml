@@ -87,7 +87,7 @@ jobs:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
-          POSTGRES_DB: test_db
+          POSTGRES_DB: pomodoro
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5432
         run: poetry run pytest tests/unit
