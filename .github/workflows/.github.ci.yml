@@ -86,13 +86,12 @@ jobs:
       - name: Run unit tests
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_PASSWORD: password
           POSTGRES_DB: test_db
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5432
         run: poetry run pytest tests/unit
 
-  # DEPLOY (можно отключить/удалить)
   deploy:
     if: ${{ false }}
     needs: [lint, unit-test]
@@ -106,7 +105,7 @@ jobs:
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.9.0
         with:
-          ssh-private-key: ${{ secrets.ssh_key_one }}
+          ssh-private-key: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy to server via SSH
         run: |
