@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 class GoogleUserData(BaseModel):
@@ -8,6 +8,11 @@ class GoogleUserData(BaseModel):
     name: str
     access_token: str
 
+    @field_validator("sub", mode="before")
+    @classmethod
+    def validate_sub(cls, v):
+        return str(v)
+
 
 class YandexUserData(BaseModel):
     id: str
@@ -15,6 +20,11 @@ class YandexUserData(BaseModel):
     name: str = Field(alias="real_name")
     email: str | None = None
     access_token: str
+
+    @field_validator("id", mode="before")
+    @classmethod
+    def validate_id(cls, v):
+        return str(v)
 
 
 class UserLoginSchema(BaseModel):
