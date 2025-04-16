@@ -23,7 +23,7 @@ async def lifespan(app: FastAPI):
     # Temporarily disable Kafka consumer
     # await broker_consumer.consume_callback_message()
     yield
-    await broker_consumer.close()
+    await broker_consumer.close_connection()
 
 
 app = FastAPI(lifespan=lifespan)

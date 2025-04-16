@@ -2,18 +2,18 @@ from pydantic import BaseModel, Field
 
 
 class GoogleUserData(BaseModel):
-    id: int
+    sub: str = Field(alias="id")
     email: str
-    verified_email: bool
+    email_verified: bool = Field(alias="verified_email")
     name: str
     access_token: str
 
 
 class YandexUserData(BaseModel):
-    id: int
+    id: str
     login: str
     name: str = Field(alias="real_name")
-    email: str
+    email: str | None = None
     access_token: str
 
 
