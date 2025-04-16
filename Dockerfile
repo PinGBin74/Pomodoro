@@ -9,6 +9,7 @@ RUN poetry lock --no-update
 RUN poetry install --no-root
 
 
+
 COPY . /app
 
 
