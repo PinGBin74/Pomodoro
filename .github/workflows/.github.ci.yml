@@ -46,20 +46,6 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.12"]
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: test_db
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
     steps:
       - uses: actions/checkout@v3
 
@@ -82,18 +68,22 @@ jobs:
           pip install poetry
           poetry config virtualenvs.create false
           poetry install --no-root
-      - name: Run docker-compose services
+
+      - name: Start docker-compose services
         run: docker-compose up -d
+
+      - name: Wait for services to be ready
+        run: sleep 15
+
       - name: Run unit tests
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: test_db
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: pomodoro
           POSTGRES_HOST: localhost
           POSTGRES_PORT: 5432
         run: poetry run pytest tests/unit
 
-  # DEPLOY (можно отключить/удалить)
   deploy:
     if: ${{ false }}
     needs: [lint, unit-test]
@@ -107,7 +97,7 @@ jobs:
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.9.0
         with:
-          ssh-private-key: ${{ secrets.git }}
+          ssh-private-key: ${{ secrets.SSH_KEY_ONE_SECRET }}
 
       - name: Deploy to server via SSH
         run: |
