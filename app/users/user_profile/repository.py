@@ -19,14 +19,21 @@ class UserRepository:
     async def create_user(self, user_data: UserCreateSchema) -> UserProfile:
         query = (
             insert(UserProfile)
-            .values(**user_data.model_dump(exclude_none=True))
-            .returning(UserProfile.id)
+            .values(
+                username=user_data.username,
+                password=user_data.password,
+                email=user_data.email,
+                name=user_data.name,
+                google_access_token=user_data.google_access_token,
+                yandex_access_token=user_data.yandex_access_token,
+            )
+            .returning(UserProfile)
         )
         async with self.db_session as session:
-            user_id: int = (await session.execute(query)).scalar()
+            result = await session.execute(query)
+            user = result.scalar_one()
             await session.commit()
-            await session.flush()
-            return await self.get_user(user_id)
+            return user
 
     async def get_user(self, user_id) -> UserProfile | None:
         query = select(UserProfile).where(UserProfile.id == user_id)
