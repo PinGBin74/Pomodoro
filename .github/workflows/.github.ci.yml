@@ -51,8 +51,8 @@ jobs:
         image: postgres:15
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: test_db
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: pomodoro
         ports:
           - 5432:5432
         options: >-

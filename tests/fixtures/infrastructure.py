@@ -1,5 +1,6 @@
 import pytest
 import pytest_asyncio
+import os
 
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
@@ -13,7 +14,7 @@ def settings():
 
 
 engine = create_async_engine(
-    url="postgresql+asyncpg://postgres:password@0.0.0.0:5432/pomodoro",
+    url=f"postgresql+asyncpg://{os.getenv('POSTGRES_USER', 'postgres')}:{os.getenv('POSTGRES_PASSWORD', 'password')}@{os.getenv('POSTGRES_HOST', 'localhost')}:{os.getenv('POSTGRES_PORT', '5432')}/{os.getenv('POSTGRES_DB', 'pomodoro')}",
     future=True,
     echo=True,
     pool_pre_ping=True,
