@@ -17,6 +17,9 @@ class UserRepository:
             return (await session.execute(query)).scalar_one_or_none()
 
     async def create_user(self, user_data: UserCreateSchema) -> UserProfile:
+        """
+        Create user and add into DataBase.
+        """
         query = (
             insert(UserProfile)
             .values(
@@ -36,11 +39,17 @@ class UserRepository:
             return user
 
     async def get_user(self, user_id) -> UserProfile | None:
+        """
+        Get user from DataBase.
+        """
         query = select(UserProfile).where(UserProfile.id == user_id)
         async with self.db_session as session:
             return (await session.execute(query)).scalar_one_or_none()
 
     async def get_user_by_username(self, username: str) -> UserProfile | None:
+        """
+        Get user from DataBase by username.
+        """
         query = select(UserProfile).where(UserProfile.username == username)
         async with self.db_session as session:
             return (await session.execute(query)).scalar_one_or_none()

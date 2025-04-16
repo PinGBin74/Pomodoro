@@ -11,6 +11,9 @@ class YandexClient:
     async_client: httpx.AsyncClient
 
     async def get_user_info(self, code: str):
+        """
+        Get user info.
+        """
         access_token = await self._get_user_access_token(code=code)
         try:
             user_info = await self.async_client.get(
@@ -24,6 +27,9 @@ class YandexClient:
             raise
 
     async def _get_user_access_token(self, code: str) -> str:
+        """
+        Get access token.
+        """
         try:
             response = await self.async_client.post(
                 self.settings.YANDEX_TOKEN_URL,

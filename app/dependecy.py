@@ -120,6 +120,9 @@ async def get_request_user_id(
     auth_service: AuthService = Depends(get_auth_service),
     token: security.http.HTTPAuthorizationCredentials = Security(reusable_oauth2),
 ) -> int:
+    """
+    Verify user by access_token.
+    """
     try:
         user_id = auth_service.get_user_id_from_access_token(token.credentials)
 

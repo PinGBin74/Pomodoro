@@ -66,6 +66,9 @@ class AuthService:
         return self.settings.yandex_redirect_url
 
     async def login(self, username: str, password: str) -> UserLoginSchema:
+        """
+        Login by auth.
+        """
         user = await self.user_repository.get_user_by_username(username)
         self._validate_auth_user(user, password)
         access_token = self.generate_access_token(user_id=user.id)

@@ -11,6 +11,9 @@ class GoogleClient:
     async_client: httpx.AsyncClient
 
     async def get_user_info(self, code: str) -> GoogleUserData:
+        """
+        Get user info after auth.
+        """
         access_token = await self._get_user_access_token(code=code)
         try:
             user_info = await self.async_client.get(
@@ -28,7 +31,7 @@ class GoogleClient:
 
     async def _get_user_access_token(self, code: str) -> str:
         """
-        For get access token.
+        Get access token.
         """
         data = {
             "code": code,
