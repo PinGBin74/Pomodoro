@@ -36,13 +36,11 @@ async def google_login(auth_service: Annotated[AuthService, Depends(get_auth_ser
     return RedirectResponse(redirect_url)
 
 
-@router.get(
-    "/google",
-)
-async def google_auth(
-    auth_service: Annotated[AuthService, Depends(get_auth_service)], code: str
+@router.get("/google")
+async def get_google_redirect_url(
+    auth_service: AuthService = Depends(get_auth_service),
 ):
-    return await auth_service.google_auth(code=code)
+    return await auth_service.get_google_redirect_url()
 
 
 @router.get("/login/yandex", response_class=RedirectResponse)
@@ -52,13 +50,11 @@ async def yandex_login(auth_service: Annotated[AuthService, Depends(get_auth_ser
     return RedirectResponse(redirect_url)
 
 
-@router.get(
-    "/yandex",
-)
-async def yandex_auth(
-    auth_service: Annotated[AuthService, Depends(get_auth_service)], code: str
+@router.get("/yandex")
+async def get_yandex_redirect_url(
+    auth_service: AuthService = Depends(get_auth_service),
 ):
-    return await auth_service.yandex_auth(code=code)
+    return auth_service.get_yandex_redirect_url()
 
 
 @router.post("/welcome_email")
