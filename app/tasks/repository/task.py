@@ -1,4 +1,4 @@
-from sqlalchemy import select, delete, update, insert
+from sqlalchemy import select, delete, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.tasks.models import Tasks, Categories
