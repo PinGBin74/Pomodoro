@@ -3,8 +3,9 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import RedirectResponse
 
-from app.dependecy import get_auth_service
+from app.dependecy import get_auth_service, get_mail_client
 from app.exception import UserNotFoundException, UserNotCorrectPasswordException
+from app.users.auth.client.mail import MailClient
 from app.users.auth.schema import UserLoginSchema
 from app.users.user_profile.schema import UserCreateSchema
 from app.users.auth.service import AuthService
@@ -58,3 +59,11 @@ async def yandex_auth(
     auth_service: Annotated[AuthService, Depends(get_auth_service)], code: str
 ):
     return await auth_service.yandex_auth(code=code)
+
+
+@router.post("/welcome_email")
+async def welcome_email(
+    mail: str,
+    mail_service: MailClient = Depends(get_mail_client),
+):
+    return await mail_service.send_welcome_email(to=mail)

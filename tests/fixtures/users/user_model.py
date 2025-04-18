@@ -8,7 +8,7 @@ faker = FakerFactory.create()
 
 
 EXISTS_GOOGLE_USER_ID = 20
-EXISTS_GOOGLE_USER_EMAIL = "fayfer2004@mail.ru"
+# EXISTS_GOOGLE_USER_EMAIL = None
 
 
 @register(_name="user_profile")

@@ -19,4 +19,3 @@ class MailClient:
             "correlation_id": str(uuid.uuid4()),
         }
         await self.broker_producer.send_welcome_email(email_data=email_body)
-        return

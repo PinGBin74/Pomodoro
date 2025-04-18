@@ -5,6 +5,7 @@ class GoogleUserData(BaseModel):
     """
     Schemas for Yandex And Google Auth.
     """
+
     sub: str = Field(alias="id")
     email: str
     email_verified: bool = Field(alias="verified_email")
